@@ -9,8 +9,12 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 def ingest_data(username: str) -> list[dict]:
-    api_base = os.environ["API"]
-    
+    try:
+        api_base = os.getenv("API", "https://api.github.com/users/")
+    except KeyError:
+        logger.warning("ENV failure")
+        raise RuntimeError("API key missing")
+        sys.exit(1)
     url = f"{api_base}{username}/repos"
     response = requests.get(url)
     if response.status_code == 200:
