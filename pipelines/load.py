@@ -7,7 +7,10 @@ logging.basicConfig(level=logging.INFO)
 """Save the dataframe to the specified format."""
 
 def load_data(df, username, file_format: str):
-    filename = Path(f"{username}_repos.{file_format}")
+    output_dir = Path("output")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    filename = output_dir / f"{username}_repos.{file_format}"
+    
     if file_format == "paraquet":
         df.to_parquet(filename, Index=False)
     else:
