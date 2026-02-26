@@ -39,7 +39,8 @@ Build image:
 docker build -t git-etl-app .
 
 Run the container:
-docker run -v $(pwd):/app --env-file filepath/name --name git-etl-container git-etl-app --username <github_username> --format csv
+docker run -v $(pwd):/output --env-file filepath/name --name git-etl-container git-etl-app --username <github_username> --format csv
+IMPORTANT: make sure UID/GID of the container user does match the owner of $(pwd)/output on the host. #use the -u (or --user) flag in docker run
 
 📊 Data Pipeline Flow
 Ingest: Requests user repository data from public API api.github.com/users/{user}/repos.
